@@ -1,20 +1,48 @@
+
+
+class RESTFasad {
+  constructor(url) {
+    this.url = url
+  }
+
+  getCandy(successHandler){
+    $.getJSON(this.url, successHandler)
+  }
+
+  createCandy(cName, cWeight) {
+    $.ajax({
+        type: "POST",
+        url: this.url,
+        data: {name: cName, weight: cWeight}
+
+      })
+  }
+
+  deleteCandy(successHandler, candyId) {
+    $.ajax({
+        url: `${this.url}/${candyId}`,
+        type: 'DELETE',
+        success: successHandler
+    })
+  }
+
+}
+
+
+var restFasad = new RESTFasad('http://its.teknikum.it/api/candy_daniel')
+
+
 $(document).ready(() => {
-    $.getJSON('http://its.teknikum.it/api/candy_daniel', (data) => {
+    restFasad.getCandy( (data) => {
         data.forEach(candy => {
             var $candy = new Candy(candy)
-            $(document.body).append($candy.element)    
+            $(document.body).append($candy.element)
         });
     });
 })
 
-$.ajax({
-    type: "POST",
-    url: 'http://its.teknikum.it/api/candy_daniel',
-    data: {name: "awdwa", weight: 34}
 
-  })
-
-var addB = document.getElementById("addBtn")
+restFasad.createCandy("awdwa", 34)
 
 
 
@@ -35,16 +63,7 @@ class Candy {
         `
         this.element = $(this.boilerPlate)
         this.element.find("button").click(() => {
-            $.ajax({
-                url: `http://its.teknikum.it/api/candy_daniel/${this.id}`,
-                type: 'DELETE',
-                success: () => {
-                    this.element.remove()
-                }
-            })
+          restFasad.deleteCandy(() => this.element.remove() , this.id)
         })
     }
 }
-
-
-//var candyName = ["Gummibjörn", "Lakritssrem", "Polkagris", "Chokladägg", "Nötcreme", "Punchpralin", "Surskalle"]
