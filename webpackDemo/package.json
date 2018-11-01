@@ -1,0 +1,19 @@
+{
+  "name": "webpackdemo",
+  "version": "0.0.1",
+  "description": "noh",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Daniel Grigore",
+  "license": "MIT",
+  "devDependencies": {
+    "webpack": "^4.23.0",
+    "webpack-cli": "^3.1.2"
+  },
+  "dependencies": {
+    "array-range": "^1.0.1",
+    "bulma": "^0.7.2"
+  }
+}
